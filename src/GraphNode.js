@@ -1,13 +1,17 @@
+import { Edge } from './Edge';
+
 export class GraphNode {
-  adjecentNodes = [];
+  edges = [];
   constructor(value, leftMember, rightMember) {
     this.value = value;
     this.id = GraphNode.uuidv4();
     if (leftMember) {
-      this.adjecentNodes.push(leftMember);
+      const newEdge = new Edge(leftMember, this);
+      this.edges.push(newEdge);
     }
     if (rightMember) {
-      this.adjecentNodes.push(rightMember);
+      const newEdge = new Edge(this, rightMember);
+      this.edges.push(newEdge);
     }
   }
 
