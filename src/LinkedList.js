@@ -18,6 +18,7 @@ export class LinkedList {
       this.#tail.nextMember = newMember;
     }
     this.#tail = newMember;
+    return this.#tail;
   }
 
   toArray() {
@@ -56,8 +57,29 @@ export class LinkedList {
     this.#head = previousElement;
   }
   switchPositions(leftElement, rightElement) {
+    if (this.#head === rightElement.previousMember) {
+      this.#head.nextMember = rightElement.nextMember;
+      rightElement.previousMember = null;
+      rightElement.nextMember.previousMember = this.#head;
+      this.#head.previousMember = rightElement;
+      rightElement.nextMember = this.#head;
+      this.#head = rightElement;
+      return;
+    }
+    if (this.#tail === leftElement.nextMember) {
+      leftElement.nextMember = null;
+      this.#tail.previousMember = leftElement.previousMember;
+      leftElement.previousMember.nextMember = this.#tail;
+      leftElement.previousMember = this.#tail;
+      rightElement.nextMember = leftElement;
+      this.#tail = leftElement;
+      return;
+    }
+
     leftElement.nextMember = rightElement.nextMember;
     rightElement.previousMember = leftElement.previousMember;
+    leftElement.previousMember.nextMember = rightElement;
+    rightElement.nextMember.previousMember = leftElement;
     leftElement.previousMember = rightElement;
     rightElement.nextMember = leftElement;
   }
